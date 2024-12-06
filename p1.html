@@ -84,7 +84,7 @@
                         data += `<tr>
                             <td>${this.countries[index]}</td>
                             <td>
-                                <button>Edit</button>
+                                <button onclick="app.EditData(${index})">Edit</button>
                                 <button onclick="app.deleteData(${index})">Delete</button>
                             </td>
                         </tr>`    
@@ -124,7 +124,22 @@
             }
              //Edit data from the table(Array)
              this.EditData=function(index){
-              
+              let editForm=  document.getElementById('saveEdit')
+let editText=document.getElementById('edit')   
+editForm.style.display="block"
+editText.value=this.countries[index] 
+self=this
+editForm.onsubmit=function(e){
+e.preventDefault()
+var country=editText.value
+console.log(typeof country)
+if(editText.value){
+    self.countries.splice(index,1,editText.value);
+    editForm.style.display="none"
+    app.FetchAll()
+}
+
+}
             }
         };
         app.FetchAll();

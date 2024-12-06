@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARRAY-CRUD</title>
+    <style>
+        center{
+            background-color: gray;
+            padding: 20px;
+            color: white;
+            border-radius: 10px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+        section{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 50px auto;
+        }
+        section>div>table, section>div>table td, section>div>table th{
+            border: 2px solid gray;
+            border-collapse: collapse;
+            padding: 10px;
+            background-color: lightgray;
+        }
+        #saveEdit{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <h1>CRUD USING AN ARRAY</h1>
+    </center>
+
+    <section>
+        <div>
+            <h2>Add Country</h2>
+            
+            <form autocomplete="off" onsubmit="app.insertData(event)">
+                <label for="">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Country Name" required>
+                <button type="submit">Add Country</button>
+            </form>
+            <br><hr>
+            <form autocomplete="off" onsubmit="app.EditData(event)" id="saveEdit">
+                <h2>Edit Country</h2>
+                <label for="">Edit:</label>
+                <input type="text" id="edit" name="edit" placeholder="Edit Country" required>
+                <button type="submit">Edit Country</button>
+            </form>
+            
+                <p id="count"></p>
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Options</th>
+                    </tr>
+                     
+    
+                     <tbody id="countries"></tbody>
+                </table>
+        </div>
+        
+      
+    </section>
+    <script>
+        /* function a(){}
+            let a = function(){}
+            let b = () => {} */
+
+        var app = new function(){
+            this.countries=["India","South Africa","NewZealand","Sri Lanka","Nepal","Australia","Bhutan","Bangladesh","United States","Germany"];
+            
+            this.tbody = document.getElementById('countries');
+
+            //ReadAll countries
+            this.FetchAll = function(){
+                var data =" ";
+
+                 if(this.countries.length > 0){
+                    for(let index=0; index<this.countries.length;index++){
+                        data += `<tr>
+                            <td>${this.countries[index]}</td>
+                            <td>
+                                <button>Edit</button>
+                                <button onclick="app.deleteData(${index})">Delete</button>
+                            </td>
+                        </tr>`    
+                    }
+                 }
+              this.CountCountries(this.countries.length);
+              return this.tbody.innerHTML = data;
+            }
+            //count the number of countries
+            this.CountCountries = function (data){
+                console.log(data);
+
+                var count = document.getElementById("count");
+                var name = "country";
+                if(data){
+                    if(data>1){
+                        name = "countries";
+                    }
+                    count.innerHTML = `Total : ${data} ${name}`;
+                } else{
+                    count.innerHTML = 'No' + ''+ name;
+                }
+            }
+            // Insert data into table(Array)
+            this.insertData=function(e){
+                e.preventDefault()//to avoid page refresh
+                let insertText=document.getElementById('name');
+                this.countries.push(insertText.value)
+                insertText.value=''
+                this.FetchAll()    
+                
+            }
+            //Delete data from the table(Array)
+            this.deleteData=function(index){
+                this.countries.splice(index,1)
+                this.FetchAll()
+            }
+             //Edit data from the table(Array)
+             this.EditData=function(index){
+              
+            }
+        };
+        app.FetchAll();
+        console.log(typeof app);
+    </script>
+</body>
+</html>
